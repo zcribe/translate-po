@@ -23,7 +23,7 @@ def create_close_string(line: str) -> str:
 
 
 def categorise_lines(strings: list) -> list:
-    """ Categorises lines in a list based on .po file standard. """
+    """ Categorises lines in a list based on .po file standard."""
     line_type_collection = []
     open_sequence = False
     for line in strings:

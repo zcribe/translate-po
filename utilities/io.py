@@ -11,7 +11,11 @@ def read_lines(file: str) -> list:
 
 
 def save_lines(file: str, lines: list):
-    """ Save lines from memory into a file. """
+    """ Save lines from memory into a file.
+
+     :parameter file:
+     :parameter lines:
+     """
     with io.open(file, 'w', encoding='utf8') as infile:
         for line in lines:
             infile.write(line)
