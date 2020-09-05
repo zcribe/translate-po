@@ -1,7 +1,7 @@
 import unittest
 
 from ..main import translate, categorise_lines, create_close_string
-from ..match import match_quotes
+from ..utilities.match import match_quotes
 
 
 class TestStringMethods(unittest.TestCase):

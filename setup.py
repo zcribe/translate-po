@@ -4,8 +4,8 @@ with open("README.md", "r") as fh:
     long_description = fh.read()
 
 setuptools.setup(
-    name="zcribe",  # Replace with your own username
-    version="0.0.1",
+    name="translatePO",  # Replace with your own username
+    version="1.0.0dev1",
     author="Erlend Eelmets",
     author_email="erlend.eelmets@gmail.com",
     description="Automatic PO file translator",
@@ -19,7 +19,7 @@ setuptools.setup(
         "Operating System :: OS Independent",
     ],
     python_requires='>=3.6',
-    keywords='',
+    keywords='po translate automatic google',
     project_urls={
         'Source': 'http://www.erlend.ee',
         'Documentation': 'http://www.erlend.ee',

@@ -1,18 +1,19 @@
+import argparse
 import os
 
 from googletrans import Translator
 
-from .constants import UNTRANSLATED_PATH, TRANSLATED_PATH, LANGUAGE_SOURCE, LANGUAGE_DESTINATION
-from .io import read_lines, save_lines
-from .match import recognize_source, recognize_destination, recognize_plurals, match_quotes
+from utilities.constants import UNTRANSLATED_PATH, TRANSLATED_PATH, LANGUAGE_SOURCE, LANGUAGE_DESTINATION
+from utilities.io import read_lines, save_lines
+from utilities.match import recognize_source, recognize_destination, recognize_plurals, match_quotes
 
 
-def translate(source: str) -> str:
+def translate(source: str, arguments) -> str:
     """ Translates a single string into target language. """
     translator = Translator()
     cleaned = match_quotes(source)
     if cleaned:
-        return translator.translate(cleaned, dest=LANGUAGE_DESTINATION, src=LANGUAGE_SOURCE).text
+        return translator.translate(cleaned, dest=arguments.to, src=arguments.fro).text
     return ""
 
 
@@ -41,7 +42,7 @@ def categorise_lines(strings: list) -> list:
     return line_type_collection
 
 
-def solve(new_file: str, old_file: str):
+def solve(new_file: str, old_file: str, arguments):
     """ Translates single file. """
     lines = read_lines(old_file)
     lines_processed = 0
@@ -52,7 +53,7 @@ def solve(new_file: str, old_file: str):
 
     for line, category in zip(lines, categories):
         if category == 1:
-            translation = create_close_string(translate(line))
+            translation = create_close_string(translate(line, arguments))
             cache_translation.append(translation)
             cache_out.append(line)
         elif category == 2:
@@ -61,7 +62,7 @@ def solve(new_file: str, old_file: str):
             cache_out.extend(cache_translation)
             cache_translation = []
         elif category == 4:
-            cache_translation.append('"' + translate(line) + '"' + "\n")
+            cache_translation.append('"' + translate(line, arguments) + '"' + "\n")
             cache_out.append(line)
         else:
             cache_out.append(line)
@@ -74,8 +75,19 @@ def solve(new_file: str, old_file: str):
 
 def run(directory: str):
     """ Core process that translates all files in a directory. """
+    parser = argparse.ArgumentParser(description='Automatically translate PO files using Google translate.')
+    parser.add_argument('--fro', type=str, help='Source language you want to translate from to (Default: en)',
+                        default=LANGUAGE_SOURCE)
+    parser.add_argument('--to', type=str, help='Destination language you want to translate to (Default: et)',
+                        default=LANGUAGE_DESTINATION)
+    parser.add_argument('--src', type=str, help='Source directory or the files you want to translate',
+                        default=UNTRANSLATED_PATH)
+    parser.add_argument('--dest', type=str, help='Destination directory you want to translated files to end up in',
+                        default=TRANSLATED_PATH)
+    arguments = parser.parse_args()
+
     for file in os.listdir(directory):
-        solve(os.path.join(TRANSLATED_PATH, file), os.path.join(UNTRANSLATED_PATH, file))
+        solve(os.path.join(arguments.dest, file), os.path.join(arguments.src, file), arguments)
 
 
 if __name__ == '__main__':
