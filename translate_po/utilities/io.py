@@ -19,3 +19,4 @@ def save_lines(file: str, lines: list):
     with io.open(file, 'w', encoding='utf8') as infile:
         for line in lines:
             infile.write(line)
+

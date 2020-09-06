@@ -3,9 +3,9 @@ import os
 
 from googletrans import Translator
 
-from utilities.constants import UNTRANSLATED_PATH, TRANSLATED_PATH, LANGUAGE_SOURCE, LANGUAGE_DESTINATION
-from utilities.io import read_lines, save_lines
-from utilities.match import recognize_source, recognize_destination, recognize_plurals, match_quotes
+from .utilities.constants import UNTRANSLATED_PATH, TRANSLATED_PATH, LANGUAGE_SOURCE, LANGUAGE_DESTINATION
+from .utilities.io import read_lines, save_lines
+from .utilities.match import recognize_source, recognize_destination, recognize_plurals, match_quotes
 
 
 def translate(source: str, arguments) -> str:
@@ -73,22 +73,27 @@ def solve(new_file: str, old_file: str, arguments):
     save_lines(new_file, cache_out)
 
 
-def run(directory: str):
-    """ Core process that translates all files in a directory. """
+def run(**kwargs):
+    """ Core process that translates all files in a directory.
+     :parameter fro:
+     :parameter to:
+     :parameter src:
+     :parameter dest:
+     """
     parser = argparse.ArgumentParser(description='Automatically translate PO files using Google translate.')
     parser.add_argument('--fro', type=str, help='Source language you want to translate from to (Default: en)',
-                        default=LANGUAGE_SOURCE)
+                        default=kwargs.get('fro', LANGUAGE_SOURCE))
     parser.add_argument('--to', type=str, help='Destination language you want to translate to (Default: et)',
-                        default=LANGUAGE_DESTINATION)
+                        default=kwargs.get('to', LANGUAGE_DESTINATION))
     parser.add_argument('--src', type=str, help='Source directory or the files you want to translate',
-                        default=UNTRANSLATED_PATH)
+                        default=kwargs.get('src', UNTRANSLATED_PATH))
     parser.add_argument('--dest', type=str, help='Destination directory you want to translated files to end up in',
-                        default=TRANSLATED_PATH)
+                        default=kwargs.get('dest', TRANSLATED_PATH))
     arguments = parser.parse_args()
 
-    for file in os.listdir(directory):
+    for file in os.listdir(arguments.src):
         solve(os.path.join(arguments.dest, file), os.path.join(arguments.src, file), arguments)
 
 
 if __name__ == '__main__':
-    run(UNTRANSLATED_PATH)
+    run()
