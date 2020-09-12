@@ -19,7 +19,7 @@ def upload_to_pypi(live=False):
         else:
             token = file.readline()[10:]
     if live:
-        os.system(f"twine upload -r dist/* -u __token__ -p {token}")
+        os.system(f"twine upload dist/* -u __token__ -p {token}")
     else:
         os.system(f"twine upload -r testpypi dist/* -u __token__ -p {token}")
 

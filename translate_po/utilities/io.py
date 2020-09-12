@@ -1,22 +1,24 @@
 import io
 
+import polib
+
 
 def read_lines(file: str) -> list:
     """ Read lines into memory. """
-    all_lines = []
-    with io.open(file, 'r', encoding='utf8') as infile:
-        for line in infile:
-            all_lines.append(line)
-    return all_lines
+    # all_lines = []
+    # with io.open(file, 'r', encoding='utf8') as infile:
+    #     for line in infile:
+    #         all_lines.append(line)
+    # return all_lines
+    return polib.pofile(file)
 
 
 def save_lines(file: str, lines: list):
     """ Save lines from memory into a file.
-
      :parameter file:
      :parameter lines:
      """
     with io.open(file, 'w', encoding='utf8') as infile:
         for line in lines:
-            infile.write(line)
-
+            infile.write(line.__unicode__())
+    # polib.save(file)

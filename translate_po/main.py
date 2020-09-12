@@ -1,20 +1,16 @@
 import argparse
 import os
 
+import polib
 from googletrans import Translator
-
-from .utilities.constants import UNTRANSLATED_PATH, TRANSLATED_PATH, LANGUAGE_SOURCE, LANGUAGE_DESTINATION
-from .utilities.io import read_lines, save_lines
-from .utilities.match import recognize_source, recognize_destination, recognize_plurals, match_quotes
+from utilities.constants import UNTRANSLATED_PATH, TRANSLATED_PATH, LANGUAGE_SOURCE, LANGUAGE_DESTINATION
+from utilities.io import read_lines, save_lines
 
 
 def translate(source: str, arguments) -> str:
     """ Translates a single string into target language. """
     translator = Translator()
-    cleaned = match_quotes(source)
-    if cleaned:
-        return translator.translate(cleaned, dest=arguments.to, src=arguments.fro).text
-    return ""
+    return translator.translate(source, dest=arguments.to, src=arguments.fro).text
 
 
 def create_close_string(line: str) -> str:
@@ -22,55 +18,13 @@ def create_close_string(line: str) -> str:
     return r"msgstr " + '"' + line + '"' + "\n"
 
 
-def categorise_lines(strings: list) -> list:
-    """ Categorises lines in a list based on .po file standard."""
-    line_type_collection = []
-    open_sequence = False
-    for line in strings:
-        line_type = 0
-        if recognize_source(line):
-            line_type = 1
-            open_sequence = True
-        elif recognize_plurals(line):
-            line_type = 2
-        elif recognize_destination(line):
-            line_type = 3
-            open_sequence = False
-        elif open_sequence:
-            line_type = 4
-        line_type_collection.append(line_type)
-    return line_type_collection
-
-
 def solve(new_file: str, old_file: str, arguments):
     """ Translates single file. """
     lines = read_lines(old_file)
-    lines_processed = 0
-    lines_total = len(lines)
-    categories = categorise_lines(lines)
-    cache_out = []
-    cache_translation = []
-
-    for line, category in zip(lines, categories):
-        if category == 1:
-            translation = create_close_string(translate(line, arguments))
-            cache_translation.append(translation)
-            cache_out.append(line)
-        elif category == 2:
-            cache_out.append(line)
-        elif category == 3:
-            cache_out.extend(cache_translation)
-            cache_translation = []
-        elif category == 4:
-            cache_translation.append('"' + translate(line, arguments) + '"' + "\n")
-            cache_out.append(line)
-        else:
-            cache_out.append(line)
-
-        lines_processed += 1
-        print(f"Lines processed: {lines_processed}/{lines_total}")
-
-    save_lines(new_file, cache_out)
+    for line in lines:
+        line.msgstr = polib.unescape(translate(polib.escape(line.msgid), arguments))
+    print(f"Translated {lines.percent_translated()}% of the lines.")
+    save_lines(new_file, lines)
 
 
 def run(**kwargs):
