@@ -23,7 +23,7 @@ def solve(new_file: str, old_file: str, arguments):
     lines = read_lines(old_file)
     for line in lines:
         line.msgstr = polib.unescape(translate(polib.escape(line.msgid), arguments))
-    print(f"Translated {lines.percent_translated()}% of the lines.")
+        print(f"Translated {lines.percent_translated()}% of the lines.")
     save_lines(new_file, lines)
 
 

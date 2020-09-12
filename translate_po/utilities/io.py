@@ -19,6 +19,13 @@ def save_lines(file: str, lines: list):
      :parameter lines:
      """
     with io.open(file, 'w', encoding='utf8') as infile:
+        infile.write("""
+msgid ""
+msgstr ""
+""")
+        for keys, values in lines.metadata.items():
+            infile.write(f'"{keys}:{values}"\n')
+        infile.write('\n')
         for line in lines:
             infile.write(line.__unicode__())
     # polib.save(file)
