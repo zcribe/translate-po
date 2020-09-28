@@ -1,12 +1,12 @@
 # translate-po
 
-Simple quick script for automatically translating .po files using Google. In attempt to give translators a quick baseline to correct and work off from. Which speeds up and simplifies the internationalization process.
+Simple quick script for automatically translating .po files using Google. It speeds up internationalization by giving translators machine translated base version to correct.
 
 ## Usage
 
 Installation
 ```cmd
-pip install translate_po
+pip install translate-po
 ```
 
 Usage
@@ -17,6 +17,8 @@ run(fro="en" to="et" src="./untranslated" dest="./translated")
 ```
 
 ### Changelog
+1.0.12
+- Fixed typo in the readme
 1.0.11
 - Fixed distributable not including parts of code
 - Build script improvements
