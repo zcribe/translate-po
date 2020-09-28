@@ -4,6 +4,12 @@ Simple quick script for automatically translating .po files using Google. In att
 
 ## Usage
 
+Installation
+```cmd
+pip install translate_po
+```
+
+Usage
 ```python
 from translate_po.main import run
 
