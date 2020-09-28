@@ -1,4 +1,4 @@
-UNTRANSLATED_PATH = "F:/Progre/HTML/Translate/untranslated"
-TRANSLATED_PATH = "F:/Progre/HTML/Translate/translated"
+UNTRANSLATED_PATH = "."
+TRANSLATED_PATH = "."
 LANGUAGE_SOURCE = "en"
 LANGUAGE_DESTINATION = "et"
