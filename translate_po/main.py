@@ -6,6 +6,7 @@ from googletrans import Translator
 
 from .utilities.constants import UNTRANSLATED_PATH, TRANSLATED_PATH, LANGUAGE_SOURCE, LANGUAGE_DESTINATION
 from .utilities.io import read_lines, save_lines
+from .utilities.match import recognize_po_file
 
 
 def translate(source: str, arguments) -> str:
@@ -35,6 +36,8 @@ def run(**kwargs):
      :parameter src:
      :parameter dest:
      """
+    found_files = False
+
     parser = argparse.ArgumentParser(description='Automatically translate PO files using Google translate.')
     parser.add_argument('--fro', type=str, help='Source language you want to translate from to (Default: en)',
                         default=kwargs.get('fro', LANGUAGE_SOURCE))
@@ -47,7 +50,12 @@ def run(**kwargs):
     arguments = parser.parse_args()
 
     for file in os.listdir(arguments.src):
-        solve(os.path.join(arguments.dest, file), os.path.join(arguments.src, file), arguments)
+        if recognize_po_file(file):
+            found_files = True
+            solve(os.path.join(arguments.dest, file), os.path.join(arguments.src, file), arguments)
+
+    if not found_files:
+        raise Exception(f"Couldn't find any .po files at: '{arguments.src}'")
 
 
 if __name__ == '__main__':

@@ -1,6 +1,13 @@
 import re
 
 
+def recognize_po_file(filename: str) -> bool:
+    """ Recognize .po file """
+    if filename.endswith(".po"):
+        return True
+    return False
+
+
 def recognize_source(line: str) -> bool:
     """ Recognizes .po file source string. """
     if line.startswith("msgid"):

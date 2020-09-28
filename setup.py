@@ -5,7 +5,7 @@ with open("README.md", "r") as fh:
 
 setuptools.setup(
     name="translate-po",  # Replace with your own username
-    version="1.0.8",
+    version="1.0.11",
     author="Erlend Eelmets",
     author_email="erlend.eelmets@gmail.com",
     description="Automatic PO file translator",

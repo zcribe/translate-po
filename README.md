@@ -11,6 +11,13 @@ run(fro="en" to="et" src="./untranslated" dest="./translated")
 ```
 
 ### Changelog
+1.0.11
+- Fixed distributable not including parts of code
+- Build script improvements
+- Fixed dependencies not automatically installing
+- Added .po file recognition
+- Changed default constants for simpler use
+
 1.0.4 
 
 - Swapped out my own implementation of .po file parser for polib one. 
