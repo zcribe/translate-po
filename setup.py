@@ -33,4 +33,12 @@ setuptools.setup(
             'sample=sample:main',
         ],
     },
+    install_requires=[
+        'polib',
+        'googletrans'
+    ],
+    setup_requires=[
+        'polib',
+        'googletrans'
+    ]
 )

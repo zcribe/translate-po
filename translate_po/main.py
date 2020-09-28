@@ -3,8 +3,9 @@ import os
 
 import polib
 from googletrans import Translator
-from utilities.constants import UNTRANSLATED_PATH, TRANSLATED_PATH, LANGUAGE_SOURCE, LANGUAGE_DESTINATION
-from utilities.io import read_lines, save_lines
+
+from .utilities.constants import UNTRANSLATED_PATH, TRANSLATED_PATH, LANGUAGE_SOURCE, LANGUAGE_DESTINATION
+from .utilities.io import read_lines, save_lines
 
 
 def translate(source: str, arguments) -> str:
