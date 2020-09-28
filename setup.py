@@ -5,7 +5,7 @@ with open("README.md", "r") as fh:
 
 setuptools.setup(
     name="translate-po",  # Replace with your own username
-    version="1.0.7",
+    version="1.0.8",
     author="Erlend Eelmets",
     author_email="erlend.eelmets@gmail.com",
     description="Automatic PO file translator",
@@ -13,8 +13,6 @@ setuptools.setup(
     long_description_content_type="text/markdown",
     url="https://github.com/zcribe/translate-po",
     packages=setuptools.find_packages(exclude=['docs', 'tests', 'translated', 'untranslated']),
-    package_data={'', ['LICENSE']},
-    include_package_data=True,
     classifiers=[
         "Development Status :: 3 - Alpha",
         "Programming Language :: Python :: 3",
