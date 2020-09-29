@@ -17,8 +17,9 @@ run(fro="en" to="et" src="./untranslated" dest="./translated")
 ```
 
 ### Changelog
-1.0.12
+1.0.13
 - Fixed typo in the readme
+
 1.0.11
 - Fixed distributable not including parts of code
 - Build script improvements
@@ -27,6 +28,5 @@ run(fro="en" to="et" src="./untranslated" dest="./translated")
 - Changed default constants for simpler use
 
 1.0.4 
-
 - Swapped out my own implementation of .po file parser for polib one. 
 - Fixed metadata writing into new files.
