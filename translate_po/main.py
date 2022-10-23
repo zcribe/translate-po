@@ -51,8 +51,6 @@ def run(**kwargs):
                         default=kwargs.get('recursive', RECURSIVE))
     arguments = parser.parse_args()
 
-    print(arguments)
-
     if arguments.recursive == True:
         for root, _, files in os.walk(arguments.src):
             for file in files:
