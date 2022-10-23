@@ -4,7 +4,7 @@ import os
 import polib
 from googletrans import Translator
 
-from .utilities.constants import UNTRANSLATED_PATH, TRANSLATED_PATH, LANGUAGE_SOURCE, LANGUAGE_DESTINATION
+from .utilities.constants import UNTRANSLATED_PATH, TRANSLATED_PATH, LANGUAGE_SOURCE, LANGUAGE_DESTINATION, RECURSIVE
 from .utilities.io import read_lines, save_lines
 from .utilities.match import recognize_po_file
 
@@ -47,12 +47,23 @@ def run(**kwargs):
                         default=kwargs.get('src', UNTRANSLATED_PATH))
     parser.add_argument('--dest', type=str, help='Destination directory you want to translated files to end up in',
                         default=kwargs.get('dest', TRANSLATED_PATH))
+    parser.add_argument('--recursive', action='store_true', help='If provided, treat src and dest as directory hierarchies',
+                        default=kwargs.get('recursive', RECURSIVE))
     arguments = parser.parse_args()
 
-    for file in os.listdir(arguments.src):
-        if recognize_po_file(file):
-            found_files = True
-            solve(os.path.join(arguments.dest, file), os.path.join(arguments.src, file), arguments)
+    if arguments.recursive == True:
+        for root, _, files in os.walk(arguments.src):
+            for file in files:
+                if recognize_po_file(file):
+                    found_files = True
+                    relative_path = os.path.relpath(root, arguments.src)
+                    if relative_path == '.': relative_path = ''
+                    solve(os.path.join(arguments.dest, relative_path, file), os.path.join(root, file), arguments)
+    else:
+        for file in os.listdir(arguments.src):
+            if recognize_po_file(file):
+                found_files = True
+                solve(os.path.join(arguments.dest, file), os.path.join(arguments.src, file), arguments)
 
     if not found_files:
         raise Exception(f"Couldn't find any .po files at: '{arguments.src}'")

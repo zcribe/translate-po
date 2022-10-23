@@ -30,15 +30,15 @@ setuptools.setup(
     },
     entry_points={
         'console_scripts': [
-            'sample=sample:main',
+            'translate-po=translate_po.main:run',
         ],
     },
     install_requires=[
         'polib>=1.1.0',
-        'googletrans>=3.0.0'
+        'googletrans==4.0.0rc1'
     ],
     setup_requires=[
         'polib>=1.1.0',
-        'googletrans>=3.0.0'
+        'googletrans==4.0.0rc1'
     ],
 )
